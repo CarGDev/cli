@@ -1,0 +1,74 @@
+#!/usr/bin/env node
+
+const program = require('commander');
+const { version } = require('../package.json');
+
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+program.version(version);
+
+program
+    .command('new-component <name>')
+    .description('Create a new component')
+    .alias('c')
+    .option('-d, --desc <description>', 'Meaningful description')
+    .option('-l, --lazy', 'Enables lazy mode data fetching')
+    .action(function (name, cmd) {
+        require('../src/new-component')(name, cmd);
+    });
+
+program
+    .command('umd')
+    .description('Build an umd module')
+    .alias('u')
+    .option('-i, --input <filename>', 'Entry point file name')
+    .option('-o, --output <path>', 'Output bundle path')
+    .option('-f, --filename <filename>', 'Output file name')
+
+    .option('-n, --name <libraryName>', 'Library name')
+
+    .action(function (cmd) {
+        // Switch to PROD as default for UMD build
+        process.env.NODE_ENV = 'production';
+        require('../src/build-umd')(cmd);
+    });
+
+program
+    .command('serve')
+    .description('Start a webpack with your component')
+    .option('-p, --port <port>', 'Port number')
+    .alias('s')
+    .action(function (cmd) {
+        require('../src/serve')(cmd);
+    });
+
+program
+    .command('build')
+    .description('Build your component')
+    .option('-u, --umd', 'Enable UMD build')
+    .alias('b')
+    .action(function (cmd) {
+        require('../src/build')(cmd);
+    });
+
+program
+    .command('storybook')
+    .description('Run a playground')
+    .alias('st')
+    .action(function () {
+        require('../src/storybook')();
+    });
+
+program
+    .command('storybuild')
+    .description('Build a playground')
+    .alias('st')
+    .action(function () {
+        require('../src/storybuild')();
+    });
+
+program.command('*').action(function (env) {
+    // console.log('User -h to get more information about commands', env);
+});
+
+program.parse(process.argv);

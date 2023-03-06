@@ -1,0 +1,32 @@
+{
+    "name": "@ivoyant/component-{{componentDashed}}",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "title": "{{componentHuman}}",
+    "description": "{{description}}",
+    "private": true,
+    "icon": "icon.png",
+    "scripts": {
+        "start": "ist s",
+        "build": "ist b",
+        "storybook": "ist storybook",
+        "prepublish": "ist b -u"
+    },
+    "files": [
+        "dist",
+        "icon.png"
+    ],
+    "author": "{{author}}",
+    "license": "{{license}}",
+    "peerDependencies": {
+        "react": "^17.0.2"
+    },
+    "dependencies": {
+        "@storybook/react": "^5.3.19"
+    },
+    "devDependencies": {
+        "@ivoyant/cli": "{{version}}",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2"
+    }
+}
